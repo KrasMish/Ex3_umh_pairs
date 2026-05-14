@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='User Description')"></head>
+
+<body>
+
+<div th:replace="fragments :: menu"></div>
+
+<div class="container mt-4">
+
+    <h2>User Description</h2>
+
+    <p>
+        <strong>ID:</strong>
+        <span th:text="${usuario.id}"></span>
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+        <span th:text="${usuario.email}"></span>
+    </p>
+
+    <h3>User Tasks</h3>
+
+    <div th:if="${usuario.tareas != null}">
+
+        <ul>
+
+            <li th:each="tarea : ${usuario.tareas}">
+                <span th:text="${tarea.titulo}"></span>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <div th:if="${usuario.tareas == null}">
+        <p>No tasks found</p>
+    </div>
+
+</div>
+
+<div th:replace="fragments :: javascript"></div>
+
+</body>
+</html>
