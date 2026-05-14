@@ -3,28 +3,30 @@ on: push
 jobs:
   container-job:
     runs-on: ubuntu-latest
-    container: maven:3.9.6-eclipse-temurin-21
+    container: openjdk:21-ea-1-jdk
     services:
-      # Etiqueta usada para acceder al contenedor del servicio
+      # Label used to access the service container
       postgres:
-        # Imagen Docker Hub
+        # Docker Hub image
         image: postgres:13
-        # Variables para arrancar PostgreSQL
+        # Variables to start PostgreSQL
         env:
           POSTGRES_USER: atsd
           POSTGRES_PASSWORD: atsd
           POSTGRES_DB: atsd_test
-        # Definimos checks para esperar hasta q postgres ya ha comenzado
+        # We define checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-steps:
-  - uses: actions/checkout@v1
+    steps:
+      - uses: actions/checkout@v1
 
-  - name: Launch tests with Maven
-    run: mvn test "-Dspring.profiles.active=postgres"
+      - name: Make Maven Wrapper executable
+        run: chmod +x ./mvnw
 
-    env:
-      POSTGRES_HOST: postgres
+      - name: Launch tests with Maven
+        run: ./mvnw test -Dspring.profiles.active=postgres
+        env:
+          POSTGRES_HOST: postgres
