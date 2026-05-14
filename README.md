@@ -3,6 +3,7 @@
 ## Developer
 
 - Krasin Mykhailo
+- James Brown
 
 ---
 
