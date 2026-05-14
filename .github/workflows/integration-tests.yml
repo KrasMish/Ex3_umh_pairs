@@ -3,7 +3,7 @@ on: push
 jobs:
   container-job:
     runs-on: ubuntu-latest
-    container: maven:3.9.6-eclipse-temurin-21
+    container: openjdk:21-ea-1-jdk
     services:
       # Etiqueta usada para acceder al contenedor del servicio
       postgres:
