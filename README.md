@@ -267,4 +267,4 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-jar","/app.jar"]
 - Unit testing
 - Web testing
 - GitHub workflow
-- Trello workflow
+- Trello workflow (test)
