@@ -30,8 +30,7 @@ jobs:
 
       - name: Launch tests with Maven
         run: |
-          chmod +x ./mvnw
-          ./mvnw test -Dspring.profiles.active=postgres
+          mvn test -Dspring.profiles.active=postgres
 
         env:
           POSTGRES_HOST: postgres
