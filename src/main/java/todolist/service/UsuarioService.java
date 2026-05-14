@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Optional;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class UsuarioService {
