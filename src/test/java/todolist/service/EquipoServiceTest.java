@@ -237,4 +237,31 @@ public class EquipoServiceTest {
                         999L)
         );
     }
+    @Test
+    @Transactional
+    public void añadirUsuarioDuplicadoAEquipoLanzaExcepcion() {
+
+        // GIVEN
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        equipoService.añadirUsuarioAEquipo(
+                equipo.getId(),
+                usuario.getId()
+        );
+
+        // THEN
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.añadirUsuarioAEquipo(
+                        equipo.getId(),
+                        usuario.getId())
+        );
+    }
 }

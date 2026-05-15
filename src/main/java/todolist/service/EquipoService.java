@@ -67,11 +67,20 @@ public class EquipoService {
 
         Equipo equipo =
                 equipoRepository.findById(equipoId)
-                        .orElseThrow(RuntimeException::new);;
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe equipo"));
 
         Usuario usuario =
                 usuarioRepository.findById(usuarioId)
-                        .orElseThrow(RuntimeException::new);
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe usuario"));
+
+        if (equipo.getUsuarios().contains(usuario)) {
+            throw new EquipoServiceException(
+                    "El usuario ya pertenece al equipo");
+        }
 
         equipo.addUsuario(usuario);
     }
