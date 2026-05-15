@@ -61,6 +61,13 @@ public class Equipo {
         usuario.getEquipos().add(this);
     }
 
+    public void removeUsuario(Usuario usuario) {
+
+        usuarios.remove(usuario);
+
+        usuario.getEquipos().remove(this);
+    }
+
     @Override
     public boolean equals(Object o) {
 
@@ -71,11 +78,9 @@ public class Equipo {
 
         Equipo equipo = (Equipo) o;
 
-        // Если есть id → сравниваем по id
         if (id != null && equipo.id != null)
             return id.equals(equipo.id);
 
-        // Иначе сравниваем по nombre
         return nombre.equals(equipo.nombre);
     }
 
