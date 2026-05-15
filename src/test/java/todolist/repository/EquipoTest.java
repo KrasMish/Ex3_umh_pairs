@@ -5,6 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import todolist.model.Equipo;
 import todolist.model.Usuario;
+import java.util.List;
 import todolist.repository.UsuarioRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -99,6 +100,32 @@ public class EquipoTest {
         assertThat(equipo.getUsuarios()).hasSize(1);
 
         assertThat(usuario.getEquipos()).hasSize(1);
+    }
+
+    @Test
+    @Transactional
+    public void recuperarTodosLosEquipos() {
+
+        // GIVEN
+        Equipo equipo1 = new Equipo("Backend");
+
+        Equipo equipo2 = new Equipo("Frontend");
+
+        equipoRepository.save(equipo1);
+
+        equipoRepository.save(equipo2);
+
+        // WHEN
+        List<Equipo> equipos = equipoRepository.findAllByOrderByNombreAsc();;
+
+        // THEN
+        assertThat(equipos).hasSize(2);
+
+        assertThat(equipos.get(0).getNombre())
+                .isEqualTo("Backend");
+
+        assertThat(equipos.get(1).getNombre())
+                .isEqualTo("Frontend");
     }
 
 }
