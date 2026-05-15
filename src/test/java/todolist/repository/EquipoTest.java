@@ -3,6 +3,7 @@ package todolist.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+import todolist.model.Equipo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
