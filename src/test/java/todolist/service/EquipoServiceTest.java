@@ -10,6 +10,11 @@ import todolist.dto.EquipoData;
 import todolist.model.Equipo;
 import todolist.repository.EquipoRepository;
 import java.util.List;
+import todolist.dto.UsuarioData;
+import todolist.model.Usuario;
+import todolist.repository.UsuarioRepository;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +27,9 @@ public class EquipoServiceTest {
 
     @Autowired
     private EquipoRepository equipoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Test
     @Transactional
@@ -70,5 +78,34 @@ public class EquipoServiceTest {
 
         assertThat(equipos.get(2).getNombre())
                 .isEqualTo("Frontend");
+    }
+    @Test
+    @Transactional
+    public void añadirUsuarioAEquipo() {
+
+        // GIVEN
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        // WHEN
+        equipoService.añadirUsuarioAEquipo(
+                equipo.getId(),
+                usuario.getId()
+        );
+
+        // THEN
+        List<UsuarioData> usuarios =
+                equipoService.usuariosEquipo(
+                        equipo.getId());
+
+        assertThat(usuarios).hasSize(1);
+
+        assertThat(usuarios.get(0).getEmail())
+                .isEqualTo("user@umh.es");
     }
 }

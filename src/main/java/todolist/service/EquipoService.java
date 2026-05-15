@@ -10,12 +10,20 @@ import todolist.model.Equipo;
 import todolist.repository.EquipoRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import todolist.dto.UsuarioData;
+import todolist.model.Usuario;
+import todolist.repository.UsuarioRepository;
+
+import java.util.stream.Collectors;
 
 @Service
 public class EquipoService {
 
     @Autowired
     private EquipoRepository equipoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -39,6 +47,36 @@ public class EquipoService {
         return equipos.stream()
                 .map(equipo ->
                         modelMapper.map(equipo, EquipoData.class))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void añadirUsuarioAEquipo(Long equipoId,
+                                     Long usuarioId) {
+
+        Equipo equipo =
+                equipoRepository.findById(equipoId)
+                        .orElseThrow(RuntimeException::new);;
+
+        Usuario usuario =
+                usuarioRepository.findById(usuarioId)
+                        .orElseThrow(RuntimeException::new);
+
+        equipo.addUsuario(usuario);
+    }
+    @Transactional(readOnly = true)
+    public List<UsuarioData> usuariosEquipo(Long equipoId) {
+
+        Equipo equipo =
+                equipoRepository.findById(equipoId)
+                        .orElseThrow(RuntimeException::new);
+
+        return equipo.getUsuarios()
+                .stream()
+                .map(usuario ->
+                        modelMapper.map(
+                                usuario,
+                                UsuarioData.class))
                 .collect(Collectors.toList());
     }
 }
