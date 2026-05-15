@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.ManyToMany;
 
 @Entity
 @Table(name = "usuarios")
@@ -24,6 +28,8 @@ public class Usuario implements Serializable {
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+    @ManyToMany(mappedBy = "usuarios")
+    private Set<Equipo> equipos = new HashSet<>();
 
     // La relación es lazy por defecto,
     // es necesario acceder a la lista de tareas para que se carguen
@@ -85,6 +91,10 @@ public class Usuario implements Serializable {
 
     public Set<Tarea> getTareas() {
         return tareas;
+    }
+
+    public Set<Equipo> getEquipos() {
+        return equipos;
     }
 
     // Método helper para añadir una tarea a la lista y establecer la relación inversa

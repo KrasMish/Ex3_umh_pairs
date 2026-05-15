@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import todolist.model.Equipo;
+import todolist.model.Usuario;
+import todolist.repository.UsuarioRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class EquipoTest {
 
     @Autowired
     private EquipoRepository equipoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Test
     public void crearEquipo() {
@@ -72,6 +77,28 @@ public class EquipoTest {
         assertThat(equipo1).isEqualTo(equipo2);
 
         assertThat(equipo2).isNotEqualTo(equipo3);
+    }
+
+    @Test
+    @Transactional
+    public void comprobarRelacionBaseDatos() {
+
+        // GIVEN
+        Equipo equipo = new Equipo("Project 1");
+
+        equipoRepository.save(equipo);
+
+        Usuario usuario = new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        // WHEN
+        equipo.addUsuario(usuario);
+
+        // THEN
+        assertThat(equipo.getUsuarios()).hasSize(1);
+
+        assertThat(usuario.getEquipos()).hasSize(1);
     }
 
 }
