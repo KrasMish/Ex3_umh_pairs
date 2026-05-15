@@ -31,6 +31,11 @@ public class EquipoService {
     @Transactional
     public EquipoData crearEquipo(String nombre) {
 
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new EquipoServiceException(
+                    "El nombre del equipo no puede estar vacío");
+        }
+
         Equipo equipoExistente =
                 equipoRepository.findByNombre(nombre);
 

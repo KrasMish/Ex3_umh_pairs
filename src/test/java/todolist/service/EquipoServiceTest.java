@@ -310,4 +310,26 @@ public class EquipoServiceTest {
                 () -> equipoService.equiposUsuario(999L)
         );
     }
+    @Test
+    @Transactional
+    public void crearEquipoConNombreVacioLanzaExcepcion() {
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.crearEquipo("")
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.crearEquipo("   ")
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.crearEquipo(null)
+        );
+    }
 }
