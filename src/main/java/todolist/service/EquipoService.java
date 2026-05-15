@@ -14,7 +14,7 @@ import todolist.dto.UsuarioData;
 import todolist.model.Usuario;
 import todolist.repository.UsuarioRepository;
 
-import java.util.stream.Collectors;
+
 
 @Service
 public class EquipoService {
@@ -30,6 +30,11 @@ public class EquipoService {
 
     @Transactional
     public EquipoData crearEquipo(String nombre) {
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new EquipoServiceException(
+                    "El nombre del equipo no puede estar vacío");
+        }
 
         Equipo equipoExistente =
                 equipoRepository.findByNombre(nombre);
@@ -67,11 +72,20 @@ public class EquipoService {
 
         Equipo equipo =
                 equipoRepository.findById(equipoId)
-                        .orElseThrow(RuntimeException::new);;
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe equipo"));
 
         Usuario usuario =
                 usuarioRepository.findById(usuarioId)
-                        .orElseThrow(RuntimeException::new);
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe usuario"));
+
+        if (equipo.getUsuarios().contains(usuario)) {
+            throw new EquipoServiceException(
+                    "El usuario ya pertenece al equipo");
+        }
 
         equipo.addUsuario(usuario);
     }
@@ -80,7 +94,9 @@ public class EquipoService {
 
         Equipo equipo =
                 equipoRepository.findById(equipoId)
-                        .orElseThrow(RuntimeException::new);
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe equipo"));
 
         return equipo.getUsuarios()
                 .stream()
@@ -96,7 +112,9 @@ public class EquipoService {
 
         Usuario usuario =
                 usuarioRepository.findById(usuarioId)
-                        .orElseThrow(RuntimeException::new);
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe usuario"));
 
         return usuario.getEquipos()
                 .stream()
@@ -105,5 +123,23 @@ public class EquipoService {
                                 equipo,
                                 EquipoData.class))
                 .collect(Collectors.toList());
+    }
+    @Transactional
+    public void eliminarUsuarioDeEquipo(Long equipoId,
+                                        Long usuarioId) {
+
+        Equipo equipo =
+                equipoRepository.findById(equipoId)
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe equipo"));
+
+        Usuario usuario =
+                usuarioRepository.findById(usuarioId)
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe usuario"));
+
+        equipo.removeUsuario(usuario);
     }
 }

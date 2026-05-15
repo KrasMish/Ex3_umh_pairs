@@ -15,7 +15,7 @@ import todolist.model.Usuario;
 import todolist.repository.UsuarioRepository;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.List;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -161,6 +161,175 @@ public class EquipoServiceTest {
 
                 () -> equipoService.crearEquipo(
                         "Backend")
+        );
+    }
+    
+    @Test
+    @Transactional
+    public void eliminarUsuarioDeEquipo() {
+
+        // GIVEN
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        equipoService.añadirUsuarioAEquipo(
+                equipo.getId(),
+                usuario.getId()
+        );
+
+        List<UsuarioData> usuariosAntes =
+                equipoService.usuariosEquipo(
+                        equipo.getId());
+
+        assertThat(usuariosAntes).hasSize(1);
+
+        // WHEN
+        equipoService.eliminarUsuarioDeEquipo(
+                equipo.getId(),
+                usuario.getId()
+        );
+
+        // THEN
+        List<UsuarioData> usuariosDespues =
+                equipoService.usuariosEquipo(
+                        equipo.getId());
+
+        assertThat(usuariosDespues).isEmpty();
+
+        List<EquipoData> equiposUsuario =
+                equipoService.equiposUsuario(
+                        usuario.getId());
+
+        assertThat(equiposUsuario).isEmpty();
+    }
+    @Test
+    @Transactional
+    public void eliminarUsuarioDeEquipoLanzaExcepcion() {
+
+        // GIVEN
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        // THEN
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.eliminarUsuarioDeEquipo(
+                        999L,
+                        usuario.getId())
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.eliminarUsuarioDeEquipo(
+                        equipo.getId(),
+                        999L)
+        );
+    }
+    @Test
+    @Transactional
+    public void añadirUsuarioDuplicadoAEquipoLanzaExcepcion() {
+
+        // GIVEN
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        equipoService.añadirUsuarioAEquipo(
+                equipo.getId(),
+                usuario.getId()
+        );
+
+        // THEN
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.añadirUsuarioAEquipo(
+                        equipo.getId(),
+                        usuario.getId())
+        );
+    }
+    @Test
+    @Transactional
+    public void añadirUsuarioAEquipoLanzaExcepcionSiDatosInvalidos() {
+
+        // GIVEN
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        // THEN
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.añadirUsuarioAEquipo(
+                        999L,
+                        usuario.getId())
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.añadirUsuarioAEquipo(
+                        equipo.getId(),
+                        999L)
+        );
+    }
+    @Test
+    @Transactional
+    public void listarMembresiasLanzaExcepcionSiDatosInvalidos() {
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.usuariosEquipo(999L)
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.equiposUsuario(999L)
+        );
+    }
+    @Test
+    @Transactional
+    public void crearEquipoConNombreVacioLanzaExcepcion() {
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.crearEquipo("")
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.crearEquipo("   ")
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.crearEquipo(null)
         );
     }
 }

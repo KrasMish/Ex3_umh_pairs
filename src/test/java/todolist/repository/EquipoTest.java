@@ -5,10 +5,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import todolist.model.Equipo;
 import todolist.model.Usuario;
+
 import java.util.List;
-import todolist.repository.UsuarioRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class EquipoTest {
 
         assertThat(equipo.getNombre()).isEqualTo("Project P1");
     }
+
     @Test
     @Transactional
     public void grabarYBuscarEquipo() {
@@ -36,7 +38,7 @@ public class EquipoTest {
         // GIVEN
         Equipo equipo = new Equipo("Project P1");
 
-        // Проверка пустого конструктора для JPA
+        // Probamos el constructor vacío, necesario para JPA/Hibernate
         Equipo equipo1 = new Equipo();
 
         // WHEN
@@ -104,6 +106,30 @@ public class EquipoTest {
 
     @Test
     @Transactional
+    public void removeUsuarioDeEquipo() {
+
+        // GIVEN
+        Equipo equipo = new Equipo("Project 1");
+
+        Usuario usuario = new Usuario("user@umh.es");
+
+        equipo.addUsuario(usuario);
+
+        assertThat(equipo.getUsuarios()).contains(usuario);
+
+        assertThat(usuario.getEquipos()).contains(equipo);
+
+        // WHEN
+        equipo.removeUsuario(usuario);
+
+        // THEN
+        assertThat(equipo.getUsuarios()).doesNotContain(usuario);
+
+        assertThat(usuario.getEquipos()).doesNotContain(equipo);
+    }
+
+    @Test
+    @Transactional
     public void recuperarTodosLosEquipos() {
 
         // GIVEN
@@ -116,7 +142,7 @@ public class EquipoTest {
         equipoRepository.save(equipo2);
 
         // WHEN
-        List<Equipo> equipos = equipoRepository.findAllByOrderByNombreAsc();;
+        List<Equipo> equipos = equipoRepository.findAllByOrderByNombreAsc();
 
         // THEN
         assertThat(equipos).hasSize(2);
