@@ -10,6 +10,21 @@
 <div class="container mt-4">
 
     <h2>Teams</h2>
+    <form method="post"
+        th:action="@{/equipos/nuevo}"
+        class="form-inline mb-3">
+
+    <input type="text"
+            name="nombre"
+            class="form-control mr-2"
+            placeholder="New team name">
+
+    <button type="submit"
+            class="btn btn-success">
+        Create team
+    </button>
+
+    </form>
 
     <table class="table table-striped">
 

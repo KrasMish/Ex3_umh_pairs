@@ -19,6 +19,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Sql(scripts = "/clean-db.sql")
@@ -73,5 +79,23 @@ public class EquipoWebTest {
                         containsString("Leave"),
                         containsString("Join")
                 )));
+    }
+    @Test
+    public void postNuevoEquipoCreaEquipoYRedirigeAListaEquipos() throws Exception {
+
+        // GIVEN
+        UsuarioData usuario = addUsuarioBD();
+
+        when(managerUserSession.usuarioLogeado())
+                .thenReturn(usuario.getId());
+
+        // WHEN, THEN
+        this.mockMvc.perform(post("/equipos/nuevo")
+                        .param("nombre", "DevOps"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        this.mockMvc.perform(get("/equipos"))
+                .andExpect(content().string(containsString("DevOps")));
     }
 }
