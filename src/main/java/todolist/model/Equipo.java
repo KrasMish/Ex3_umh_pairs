@@ -4,8 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "equipos")
 public class Equipo {
 
     @Id
@@ -14,16 +16,17 @@ public class Equipo {
 
     private String nombre;
 
-    // Default constructor required by JPA (Spring Boot)
     public Equipo() {
     }
 
-    // Constructor required by your test
     public Equipo(String nombre) {
         this.nombre = nombre;
     }
 
-    // Getter required by your test's assertion
+    public Long getId() {
+        return id;
+    }
+
     public String getNombre() {
         return nombre;
     }
