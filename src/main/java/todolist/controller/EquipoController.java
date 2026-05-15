@@ -76,4 +76,20 @@ public class EquipoController {
 
         return "redirect:/equipos";
     }
+    @PostMapping("/equipos/{id}/leave")
+    public String leaveEquipo(@PathVariable Long id,
+                              RedirectAttributes flash) {
+
+        Long usuarioId = managerUserSession.usuarioLogeado();
+
+        equipoService.eliminarUsuarioDeEquipo(
+                id,
+                usuarioId);
+
+        flash.addFlashAttribute(
+                "mensaje",
+                "Has salido del equipo correctamente");
+
+        return "redirect:/equipos";
+    }
 }
