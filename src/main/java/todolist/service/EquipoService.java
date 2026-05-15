@@ -14,7 +14,7 @@ import todolist.dto.UsuarioData;
 import todolist.model.Usuario;
 import todolist.repository.UsuarioRepository;
 
-import java.util.stream.Collectors;
+
 
 @Service
 public class EquipoService {
@@ -105,5 +105,19 @@ public class EquipoService {
                                 equipo,
                                 EquipoData.class))
                 .collect(Collectors.toList());
+    }
+    @Transactional
+    public void eliminarUsuarioDeEquipo(Long equipoId,
+                                        Long usuarioId) {
+
+        Equipo equipo =
+                equipoRepository.findById(equipoId)
+                        .orElseThrow(RuntimeException::new);
+
+        Usuario usuario =
+                usuarioRepository.findById(usuarioId)
+                        .orElseThrow(RuntimeException::new);
+
+        equipo.removeUsuario(usuario);
     }
 }
