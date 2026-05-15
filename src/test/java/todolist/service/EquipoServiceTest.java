@@ -207,4 +207,34 @@ public class EquipoServiceTest {
 
         assertThat(equiposUsuario).isEmpty();
     }
+    @Test
+    @Transactional
+    public void eliminarUsuarioDeEquipoLanzaExcepcion() {
+
+        // GIVEN
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        // THEN
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.eliminarUsuarioDeEquipo(
+                        999L,
+                        usuario.getId())
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.eliminarUsuarioDeEquipo(
+                        equipo.getId(),
+                        999L)
+        );
+    }
 }

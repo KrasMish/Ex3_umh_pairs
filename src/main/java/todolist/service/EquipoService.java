@@ -112,11 +112,15 @@ public class EquipoService {
 
         Equipo equipo =
                 equipoRepository.findById(equipoId)
-                        .orElseThrow(RuntimeException::new);
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe equipo"));
 
         Usuario usuario =
                 usuarioRepository.findById(usuarioId)
-                        .orElseThrow(RuntimeException::new);
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe usuario"));
 
         equipo.removeUsuario(usuario);
     }
