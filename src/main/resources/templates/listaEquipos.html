@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Teams')"></head>
+
+<body>
+
+<div th:replace="fragments :: menu"></div>
+
+<div class="container mt-4">
+
+    <h2>Teams</h2>
+
+    <table class="table table-striped">
+
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Membership</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:each="equipo : ${equipos}">
+
+            <td th:text="${equipo.nombre}"></td>
+
+            <td>
+                <form th:if="${#lists.contains(equiposUsuario.![id], equipo.id)}"
+                      th:action="@{/equipos/{id}/leave(id=${equipo.id})}"
+                      method="post">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Leave
+                    </button>
+                </form>
+            
+                <form th:unless="${#lists.contains(equiposUsuario.![id], equipo.id)}"
+                      th:action="@{/equipos/{id}/join(id=${equipo.id})}"
+                      method="post">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        Join
+                    </button>
+                </form>
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div th:replace="fragments :: javascript"></div>
+
+</body>
+</html>
