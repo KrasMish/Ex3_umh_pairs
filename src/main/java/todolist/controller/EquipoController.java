@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import todolist.authentication.ManagerUserSession;
 import todolist.dto.EquipoData;
 import todolist.dto.UsuarioData;
@@ -57,6 +57,22 @@ public class EquipoController {
         flash.addFlashAttribute(
                 "mensaje",
                 "Equipo creado correctamente");
+
+        return "redirect:/equipos";
+    }
+    @PostMapping("/equipos/{id}/join")
+    public String joinEquipo(@PathVariable Long id,
+                             RedirectAttributes flash) {
+
+        Long usuarioId = managerUserSession.usuarioLogeado();
+
+        equipoService.añadirUsuarioAEquipo(
+                id,
+                usuarioId);
+
+        flash.addFlashAttribute(
+                "mensaje",
+                "Te has unido al equipo correctamente");
 
         return "redirect:/equipos";
     }

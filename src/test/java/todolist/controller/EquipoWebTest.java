@@ -96,6 +96,28 @@ public class EquipoWebTest {
                 .andExpect(redirectedUrl("/equipos"));
 
         this.mockMvc.perform(get("/equipos"))
-                .andExpect(content().string(containsString("DevOps")));
+                
+        .andExpect(content().string(containsString("DevOps")));
+    }
+
+    @Test
+    public void postJoinEquipoAñadeUsuarioAlEquipo() throws Exception {
+
+        // GIVEN
+        UsuarioData usuario = addUsuarioBD();
+
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        when(managerUserSession.usuarioLogeado())
+                .thenReturn(usuario.getId());
+
+        // WHEN, THEN
+        this.mockMvc.perform(post("/equipos/" + equipo.getId() + "/join"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        this.mockMvc.perform(get("/equipos"))
+                .andExpect(content().string(containsString("Leave")));
     }
 }
