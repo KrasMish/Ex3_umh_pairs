@@ -13,6 +13,7 @@ import java.util.List;
 import todolist.dto.UsuarioData;
 import todolist.model.Usuario;
 import todolist.repository.UsuarioRepository;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -146,5 +147,20 @@ public class EquipoServiceTest {
 
         assertThat(equipos.get(1).getNombre())
                 .isEqualTo("Frontend");
+    }
+    @Test
+    @Transactional
+    public void crearEquipoDuplicadoLanzaExcepcion() {
+
+        // GIVEN
+        equipoService.crearEquipo("Backend");
+
+        // THEN
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.crearEquipo(
+                        "Backend")
+        );
     }
 }

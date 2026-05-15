@@ -31,11 +31,22 @@ public class EquipoService {
     @Transactional
     public EquipoData crearEquipo(String nombre) {
 
+        Equipo equipoExistente =
+                equipoRepository.findByNombre(nombre);
+
+        if (equipoExistente != null) {
+
+            throw new EquipoServiceException(
+                    "El equipo ya existe");
+        }
+
         Equipo equipo = new Equipo(nombre);
 
         equipoRepository.save(equipo);
 
-        return modelMapper.map(equipo, EquipoData.class);
+        return modelMapper.map(
+                equipo,
+                EquipoData.class);
     }
 
     @Transactional(readOnly = true)
