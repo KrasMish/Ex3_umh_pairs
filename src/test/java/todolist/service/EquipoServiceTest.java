@@ -264,4 +264,34 @@ public class EquipoServiceTest {
                         usuario.getId())
         );
     }
+    @Test
+    @Transactional
+    public void añadirUsuarioAEquipoLanzaExcepcionSiDatosInvalidos() {
+
+        // GIVEN
+        EquipoData equipo =
+                equipoService.crearEquipo("Backend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        // THEN
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.añadirUsuarioAEquipo(
+                        999L,
+                        usuario.getId())
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.añadirUsuarioAEquipo(
+                        equipo.getId(),
+                        999L)
+        );
+    }
 }
