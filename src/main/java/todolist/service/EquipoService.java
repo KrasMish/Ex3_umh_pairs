@@ -89,7 +89,9 @@ public class EquipoService {
 
         Equipo equipo =
                 equipoRepository.findById(equipoId)
-                        .orElseThrow(RuntimeException::new);
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe equipo"));
 
         return equipo.getUsuarios()
                 .stream()
@@ -105,7 +107,9 @@ public class EquipoService {
 
         Usuario usuario =
                 usuarioRepository.findById(usuarioId)
-                        .orElseThrow(RuntimeException::new);
+                        .orElseThrow(() ->
+                                new EquipoServiceException(
+                                        "No existe usuario"));
 
         return usuario.getEquipos()
                 .stream()

@@ -294,4 +294,20 @@ public class EquipoServiceTest {
                         999L)
         );
     }
+    @Test
+    @Transactional
+    public void listarMembresiasLanzaExcepcionSiDatosInvalidos() {
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.usuariosEquipo(999L)
+        );
+
+        assertThrows(
+                EquipoServiceException.class,
+
+                () -> equipoService.equiposUsuario(999L)
+        );
+    }
 }
