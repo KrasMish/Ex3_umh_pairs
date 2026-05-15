@@ -79,4 +79,20 @@ public class EquipoService {
                                 UsuarioData.class))
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<EquipoData> equiposUsuario(Long usuarioId) {
+
+        Usuario usuario =
+                usuarioRepository.findById(usuarioId)
+                        .orElseThrow(RuntimeException::new);
+
+        return usuario.getEquipos()
+                .stream()
+                .map(equipo ->
+                        modelMapper.map(
+                                equipo,
+                                EquipoData.class))
+                .collect(Collectors.toList());
+    }
 }

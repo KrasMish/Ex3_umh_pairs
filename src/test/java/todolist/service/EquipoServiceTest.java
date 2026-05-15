@@ -108,4 +108,43 @@ public class EquipoServiceTest {
         assertThat(usuarios.get(0).getEmail())
                 .isEqualTo("user@umh.es");
     }
+
+    @Test
+    @Transactional
+    public void recuperarEquiposUsuario() {
+
+        // GIVEN
+        EquipoData backend =
+                equipoService.crearEquipo("Backend");
+
+        EquipoData frontend =
+                equipoService.crearEquipo("Frontend");
+
+        Usuario usuario =
+                new Usuario("user@umh.es");
+
+        usuarioRepository.save(usuario);
+
+        equipoService.añadirUsuarioAEquipo(
+                backend.getId(),
+                usuario.getId());
+
+        equipoService.añadirUsuarioAEquipo(
+                frontend.getId(),
+                usuario.getId());
+
+        // WHEN
+        List<EquipoData> equipos =
+                equipoService.equiposUsuario(
+                        usuario.getId());
+
+        // THEN
+        assertThat(equipos).hasSize(2);
+
+        assertThat(equipos.get(0).getNombre())
+                .isEqualTo("Backend");
+
+        assertThat(equipos.get(1).getNombre())
+                .isEqualTo("Frontend");
+    }
 }
