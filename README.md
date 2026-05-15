@@ -1,271 +1,185 @@
-# ToDo App – Agile Development Assignment
+ToDo List App — Pairs Project
+
+Spring Boot web application developed as part of the UMH Software Engineering course.
+
+Milestone
+Version: 1.2.0
+Developers
+James
+Misha
+Project Description
+
+This project is a collaborative ToDo List Web Application built using modern Java backend technologies.
+
+The application allows users to:
+
+create and manage tasks
+manage teams
+associate users with teams
+persist data in relational databases
+execute repository and service tests
+work with layered Spring Boot architecture
+Technologies Used
+Technology	Purpose
+Java	Backend programming language
+Spring Boot	Main application framework
+Spring Data JPA	Persistence layer
+Hibernate	ORM
+Maven	Dependency management
+H2 Database	In-memory database
+Thymeleaf	Server-side templates
+JUnit 5	Testing
+ModelMapper	DTO mapping
+Project Architecture
+
+The application follows a layered architecture:
+
+Controller Layer
+        ↓
+Service Layer
+        ↓
+Repository Layer
+        ↓
+Database Layer
+Project Structure
+src
+├── main
+│   ├── java
+│   │   └── todolist
+│   │       ├── controller
+│   │       ├── dto
+│   │       ├── model
+│   │       ├── repository
+│   │       ├── service
+│   │       └── config
+│   │
+│   └── resources
+│
+├── test
+│   ├── java
+│   │   └── todolist
+│   │       ├── repository
+│   │       ├── service
+│   │       └── controller
+│   │
+│   └── resources
+Implemented Features
+Users
+User creation
+User persistence
+User retrieval
+User-task relationships
+Tasks
+Task creation
+Task persistence
+Task assignment
+Task modification
+Task deletion
+Teams
+Team entity
+Team persistence
+Ordered team list
+Team retrieval
+User-team relationships
+Many-to-many association
+Service Layer
+DTO architecture
+Team service
+User-team business logic
+Ordered queries
+Exception handling
+Testing
+
+Implemented:
+
+Entity tests
+Repository tests
+Service tests
+Integration tests
+
+Run all tests with:
+
+mvn clean test
+Database Relationships
+User ↔ Task
+One User → Many Tasks
 
-## Developer
+Implemented using:
 
-- Krasin Mykhailo
-- James Brown
+@OneToMany
+User ↔ Team
+Many Users ↔ Many Teams
 
----
+Implemented using:
 
-# Project Description
+@ManyToMany
 
-This project is a ToDo application developed using Spring Boot and Agile development practices.
+Intermediate relational table:
 
-The application includes:
-
-- User authentication
-- Task management
-- User listing page
-- User description page
-- About page
-- Docker containerization
-- Unit and Web tests
-- Agile workflow with GitHub and Trello
-
----
-
-# Technologies Used
-
-- Java 17
-- Spring Boot
-- Spring MVC
-- Thymeleaf
-- Maven
-- H2 Database
-- Bootstrap
-- JUnit 5
-- Mockito
-- Docker
-
----
-
-# GitHub Repository
-
-- [GitHub Repository](https://github.com/KrasMish/Exercise2_umh)
-
----
-
-# Trello Board
-
-- [Trello Agile Board](https://trello.com/invite/b/69f06a9879340109d2d579be/ATTIf5eb0e9595eb83c7d6c1ae43b6b637e0F3A91E25/todo-app-agile-board)
-
----
-
-# Docker Hub
-
-- [Docker Hub Image](https://hub.docker.com/r/kramish/todo-app)
-
----
-
-# Implemented Features
-
-## Required Features
-
-### Menu Bar
-
-Navigation menu implemented using Thymeleaf fragments.
-
-Includes:
-- Users page
-- Logout
-- About page
-
----
-
-### Users List Page
-
-Endpoint:
-
-```text
-/usuarios
-```
-
-Displays:
-- all registered users
-- clickable user links
-
----
-
-### User Description Page
-
-Endpoint:
-
-```text
-/usuarios/{id}
-```
-
-Displays:
-- user information
-- user tasks
-
----
-
-## Optional Features
-
-### About Page
-
-Endpoint:
-
-```text
-/about
-```
-
-Displays:
-- development team
-- application version
-- release date
-
----
-
-# Localhost URLs
-
-## Application
-
-- [http://localhost:8080](http://localhost:8080)
-
----
-
-## Login
-
-- [http://localhost:8080/login](http://localhost:8080/login)
-
----
-
-## Users Page
-
-- [http://localhost:8080/usuarios](http://localhost:8080/usuarios)
-
----
-
-## User Description
-
-- [http://localhost:8080/usuarios/1](http://localhost:8080/usuarios/1)
-
----
-
-## About Page
-
-- [http://localhost:8080/about](http://localhost:8080/about)
-
----
-
-# Docker
-
-## Pull Docker Image
-
-```bash
-docker pull kramish/todo-app
-```
-
----
-
-## Run Docker Container
-
-```bash
-docker run -p 8080:8080 kramish/todo-app
-```
-
----
-
-# Running the Project
-
-## Run with Maven
-
-```bash
+equipo_usuario
+Running the Project
+Clone Repository
+git clone https://github.com/KrasMish/Ex3_umh_pairs.git
+Enter Project Folder
+cd Ex3_umh_pairs
+Run Application
 mvn spring-boot:run
-```
+Local Access
+Application
 
----
+http://localhost:8080
 
-# Build Project
+H2 Database Console
 
-```bash
-mvn clean package
-```
+http://localhost:8080/h2-console
 
----
+H2 Database Credentials
+Parameter	Value
+JDBC URL	jdbc:h2:mem:testdb
+Username	sa
+Password	(empty)
+Running Tests
 
-# Run Tests
+Run all tests:
 
-```bash
-mvn test
-```
+mvn clean test
+Git Workflow
 
----
+The project uses:
 
-# Tests Implemented
+feature branches
+pull requests
+issue tracking
+Trello workflow
+milestone versioning
+Trello Board
 
-## Service Tests
+https://trello.com/b/mQe2rhr3/p3-to-do-list-app-pairs
 
-- UsuarioServiceTest
-- TareaServiceTest
+GitHub Repository
 
----
+https://github.com/KrasMish/Ex3_umh_pairs
 
-## Web Tests
+Current Status
+Completed Milestone
+1.2.0
 
-- UsuarioWebTest
-- TareaWebTest
+Implemented:
 
----
+entity layer
+repository layer
+service layer
+DTO mapping
+relational persistence
+business logic
+user/team relationships
+repository/service tests
+Academic Context
 
-# Agile Workflow
+Project developed for:
 
-The project was developed following Agile workflow practices:
+UMH — Software Engineering
 
-- Feature branches
-- Pull requests
-- GitHub issues
-- Labels
-- Milestones
-- Trello Kanban board
+Authors
 
----
-
-# Branches Used
-
-- feature/menu-bar
-- feature/users-list
-- feature/user-description
-- feature/about-page
-
----
-
-# Labels Used
-
-- enhancement
-- backend
-- frontend
-- technical
-
----
-
-# Milestones
-
-- v1.0.0
-- v1.1.0
-
----
-
-# Dockerfile
-
-```dockerfile
-FROM openjdk:21-ea-1-jdk
-COPY target/*.jar app.jar
-
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-jar","/app.jar"]
-```
-
----
-
-# Final Features Checklist
-
-- Menu bar
-- Users list
-- User description page
-- About page
-- Docker support
-- Unit testing
-- Web testing
-- GitHub workflow
-- Trello workflow (test)
+James & Misha
