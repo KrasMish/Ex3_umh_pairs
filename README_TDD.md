@@ -80,3 +80,18 @@ docker container ls -a
 docker container stop postgres-develop
 docker container start postgres-develop
 docker container logs postgres-develop
+```
+```md
+## Docker image
+
+Docker Hub image:
+
+`jamesbobbrown/atsd-todolist-james-misha:1.2.0`
+
+Commands used:
+
+```bash
+docker build -t jamesbobbrown/atsd-todolist-james-misha:1.2.0 .
+docker push jamesbobbrown/atsd-todolist-james-misha:1.2.0
+docker run --rm -p 8081:8080 --name todolist-app -e SPRING_PROFILES_ACTIVE=postgres -e POSTGRES_HOST=host.docker.internal jamesbobbrown/atsd-todolist-james-misha:1.2.0
+```
