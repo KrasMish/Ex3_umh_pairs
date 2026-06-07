@@ -195,15 +195,15 @@ mvn clean package
 
 Build the Docker image:
 
-docker build -t YOUR_DOCKERHUB_USERNAME/atsd-todolist-james-misha:1.2.0 .
+docker build -t jamesbobbrown/atsd-todolist-james-misha:1.2.0 .
 
 Run the Docker image on port 8081:
 
-docker run --rm -p 8081:8080 --name todolist-app -e SPRING_PROFILES_ACTIVE=postgres -e POSTGRES_HOST=host.docker.internal YOUR_DOCKERHUB_USERNAME/atsd-todolist-james-misha:1.2.0
+docker run --rm -p 8081:8080 --name todolist-app -e SPRING_PROFILES_ACTIVE=postgres -e POSTGRES_HOST=host.docker.internal jamesbobbrown/atsd-todolist-james-misha:1.2.0
 
 Push the Docker image:
 
-docker push YOUR_DOCKERHUB_USERNAME/atsd-todolist-james-misha:1.2.0
+docker push jamesbobbrown/atsd-todolist-james-misha:1.2.0
 Git Workflow
 
 The project uses:

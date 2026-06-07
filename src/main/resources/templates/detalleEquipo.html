@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Team members')"></head>
+
+<body>
+
+<div th:replace="fragments :: menu"></div>
+
+<div class="container mt-4">
+
+    <h2>Team members</h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="usuario : ${usuariosEquipo}">
+            <td th:text="${usuario.email}"></td>
+            <td th:text="${usuario.nombre}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary" th:href="@{/equipos}">Back to teams</a>
+
+</div>
+
+<div th:replace="fragments :: javascript"></div>
+
+</body>
+</html>

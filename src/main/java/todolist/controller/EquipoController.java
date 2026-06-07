@@ -92,4 +92,16 @@ public class EquipoController {
 
         return "redirect:/equipos";
     }
+        @GetMapping("/equipos/{id}")
+        public String detalleEquipo(@PathVariable Long id, Model model) {
+        Long usuarioId = managerUserSession.usuarioLogeado();
+
+        UsuarioData usuario = usuarioService.findById(usuarioId);
+        List<UsuarioData> usuariosEquipo = equipoService.usuariosEquipo(id);
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("usuariosEquipo", usuariosEquipo);
+
+        return "detalleEquipo";
+        }
 }
