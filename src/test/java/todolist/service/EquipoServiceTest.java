@@ -14,7 +14,8 @@ import todolist.dto.UsuarioData;
 import todolist.model.Usuario;
 import todolist.repository.UsuarioRepository;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import org.springframework.transaction.annotation.Transactional;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -332,4 +333,41 @@ public class EquipoServiceTest {
                 () -> equipoService.crearEquipo(null)
         );
     }
+    @Test
+@Transactional
+public void renombrarEquipo() {
+
+    EquipoData equipo = equipoService.crearEquipo("Backend");
+
+    EquipoData equipoRenombrado =
+            equipoService.renombrarEquipo(equipo.getId(), "Backend Team");
+
+    assertThat(equipoRenombrado.getNombre()).isEqualTo("Backend Team");
+}
+
+@Test
+@Transactional
+public void renombrarEquipoConNombreVacioLanzaExcepcion() {
+
+    EquipoData equipo = equipoService.crearEquipo("Backend");
+
+    assertThrows(
+            EquipoServiceException.class,
+            () -> equipoService.renombrarEquipo(equipo.getId(), "")
+    );
+}
+
+@Test
+@Transactional
+public void eliminarEquipo() {
+
+    EquipoData equipo = equipoService.crearEquipo("Backend");
+
+    equipoService.eliminarEquipo(equipo.getId());
+
+    assertThrows(
+            EquipoServiceException.class,
+            () -> equipoService.findById(equipo.getId())
+    );
+}
 }
