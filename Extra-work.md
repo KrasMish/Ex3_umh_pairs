@@ -32,7 +32,7 @@ https://trello.com/b/mQe2rhr3/p3-to-do-list-app-pairs
 
 ## Docker image
 
-https://hub.docker.com/repository/docker/jamesbobbrown/atsd-todolist-james-misha/general
+https://hub.docker.com/r/jamesbobbrown/atsd-todolist-james-misha
 
 ---
 
