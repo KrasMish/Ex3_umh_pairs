@@ -142,4 +142,48 @@ public class EquipoService {
 
         equipo.removeUsuario(usuario);
     }
+    @Transactional(readOnly = true)
+public EquipoData findById(Long equipoId) {
+
+    Equipo equipo = equipoRepository.findById(equipoId)
+            .orElseThrow(() -> new EquipoServiceException("No existe equipo"));
+
+    return modelMapper.map(equipo, EquipoData.class);
+}
+
+@Transactional
+public EquipoData renombrarEquipo(Long equipoId, String nuevoNombre) {
+
+    if (nuevoNombre == null || nuevoNombre.trim().isEmpty()) {
+        throw new EquipoServiceException("El nombre del equipo no puede estar vacío");
+    }
+
+    Equipo equipo = equipoRepository.findById(equipoId)
+            .orElseThrow(() -> new EquipoServiceException("No existe equipo"));
+
+    Equipo equipoExistente = equipoRepository.findByNombre(nuevoNombre.trim());
+
+    if (equipoExistente != null && !equipoExistente.getId().equals(equipoId)) {
+        throw new EquipoServiceException("El equipo ya existe");
+    }
+
+    equipo.setNombre(nuevoNombre.trim());
+
+    return modelMapper.map(equipo, EquipoData.class);
+}
+
+@Transactional
+public void eliminarEquipo(Long equipoId) {
+
+    Equipo equipo = equipoRepository.findById(equipoId)
+            .orElseThrow(() -> new EquipoServiceException("No existe equipo"));
+
+    for (Usuario usuario : equipo.getUsuarios()) {
+        usuario.getEquipos().remove(equipo);
+    }
+
+    equipo.getUsuarios().clear();
+
+    equipoRepository.delete(equipo);
+}
 }
